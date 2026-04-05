@@ -1,0 +1,764 @@
+[
+  {
+    "message": "Boss send 5000 urgently",
+    "decision": "scam",
+    "risk_score": 70,
+    "signals": [
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 18:32:06.951731"
+  },
+  {
+    "message": "UPI collect request approve now",
+    "decision": "scam",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 18:32:08.365493"
+  },
+  {
+    "message": "Maa I lost my phone send money urgently",
+    "decision": "scam",
+    "risk_score": 100,
+    "signals": [
+      "Urgent Money Request",
+      "Fake Family Emergency"
+    ],
+    "timestamp": "2026-04-04 18:32:09.387905"
+  },
+  {
+    "message": "Bhai OTP bhej jaldi",
+    "decision": "scam",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 18:32:10.160319"
+  },
+  {
+    "message": "Let's meet tomorrow",
+    "decision": "safe",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 18:32:10.398238"
+  },
+  {
+    "message": "Dinner at home",
+    "decision": "safe",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 18:32:10.545465"
+  },
+  {
+    "user_message": "Boss send 5000 urgently",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "warn_and_monitor",
+    "risk_score": 70,
+    "signals": [
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 18:38:20.334019"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "\"Kya ho raha hai bhai? Phone charge pe hai, ab phir se OTP aa raha hai\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 18:38:21.461649"
+  },
+  {
+    "user_message": "Maa I lost my phone send money urgently",
+    "agent_reply": "\"Bhai samjha nahi, OTP kya chahiye? Ab papa phone pe kahan hai?\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "Urgent Money Request",
+      "Fake Family Emergency"
+    ],
+    "timestamp": "2026-04-04 18:38:22.177576"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "\"Kya ho raha hai? OTP kahan se bhej do? Woh toh mera pyaara phone hai, jahan se OTP aayega?\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 18:38:23.089608"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 18:38:23.214348"
+  },
+  {
+    "user_message": "Dinner at home",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 18:38:23.344159"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "\"Wah bhai, upar kya? My phone ka charge pe hai, network slow hai. Samjha nahi, kaise?\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 18:59:58.396173"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Bhai, samajh mein nahi aa raha. Kya kuch galat ho gaya? Main abhi phone charge karte hoon.",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 18:59:59.251021"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 18:59:59.443748"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Kya yeh koi company ka request hai? Kaun si company se ho?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 19:39:09.520204"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Bhai OTP bhej jaldi? - yeh kya hai, OTP clear nahi dikh raha hai. Kya aapka network problem hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 19:39:10.124735"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 19:39:10.259042"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "bhai yeh request kab bheja? mujhe toh kuch yaad nahi \ud83d\ude10",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 19:45:10.684955"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre OTP bhejne se pata chal jayega ki kiska request tha. Toh phir bhi, maine toh koi OTP ya message nahi dekha. Kya aapka number toh registered nahi hai meri UPI se? \ud83e\udd14",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 19:45:11.517182"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 19:45:12.074481"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "UPI request kya? mujhe toh UPI ID nahi diya tha. abhi toh main office mein hoon, isse kahan se aaya? \ud83e\udd14",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 19:46:27.760062"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Bhai, OTP bhejne ki kya zaroorat hai? Maine toh UPI request approve nahi kiya tha. Abhi toh main office mein hoon, OTP kabhi nahi bheja tha. Iska kya matlab hai? \ud83e\udd14",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 19:46:28.555091"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 19:46:28.684512"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "\"UPI kya hota hai? Main samjha nahi kyun karna hai?\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 19:47:07.920902"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "\"Phir bhi network slow hai, charge pe koi baat hai. Ab phone pe kuchh aaya hai, main chalta hoon.\"",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 19:47:08.959627"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 19:47:09.140947"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre bhai, yeh kaisa request hai? Main toh pehle hi khana kha raha tha abhi... samjha nahi aaya.",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "timestamp": "2026-04-04 19:52:44.715797"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre OTP kis baat ke liye hai bhai? Number toh screen pe blur ho raha hai mujhe... lekin kya hoga?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "timestamp": "2026-04-04 19:52:45.623044"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "timestamp": "2026-04-04 19:52:45.774189"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "yeh request kaisa aaya? main toh kuch kiya nahi... kaun si app pe hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "Guardian risk: 30",
+      "Indian signals: ['UPI Collect Fraud']",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:00:36.100273"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "arre bhai, OTP toh aaya... lekin 4 number hai ya 6? thoda confuse ho gaya main",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "Guardian risk: 55",
+      "Indian signals: ['OTP Theft Attempt', 'Urgent Money Request']",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:00:37.026020"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "signals": [],
+    "trace": [
+      "Guardian risk: 0",
+      "Indian signals: []",
+      "Final decision: safe, Action: allow"
+    ],
+    "timestamp": "2026-04-04 20:00:37.294763"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "arre bhai, yeh kaise accept ho jaye? App pe confirmation kaise aayega, main toh kuch samajh nahi pa raha",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "Guardian risk: 30",
+      "Indian signals: ['UPI Collect Fraud']",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:14:29.519514"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre bhai, yeh kaisa ho raha hai? Main toh kuch kiya nahi... kaun si app pe hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "Guardian risk: 30",
+      "Indian signals: ['UPI Collect Fraud']",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:21:05.205534"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre yaar, OTP toh aaya... lekin 4 number hai ya 6? Thoda confuse ho gaya main.",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 110,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "Guardian risk: 55",
+      "Indian signals: ['OTP Theft Attempt', 'Urgent Money Request']",
+      "Semantic match found: 1 similar cases",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:21:06.857719"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 10,
+    "signals": [],
+    "trace": [
+      "Guardian risk: 0",
+      "Indian signals: []",
+      "Semantic match found: 2 similar cases",
+      "Final decision: safe, Action: allow"
+    ],
+    "timestamp": "2026-04-04 20:21:07.180589"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre haan bhai, yeh kis cheez ki request hai? Main toh UPI collect kya janta hoon...",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "Guardian risk: 30",
+      "Indian signals: ['UPI Collect Fraud']",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:41:55.566053"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre yaar, OTP kaisa aaya? Main toh screen pe number blur ho raha hai mujhe, samjha nahi aaya kyun...",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "Guardian risk: 55",
+      "Indian signals: ['OTP Theft Attempt', 'Urgent Money Request']",
+      "Semantic boost: +5 from 1 matches",
+      "Final decision: scam, Action: block_and_bait"
+    ],
+    "timestamp": "2026-04-04 20:41:56.649215"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 10,
+    "signals": [],
+    "trace": [
+      "Guardian risk: 0",
+      "Indian signals: []",
+      "Semantic boost: +10 from 2 matches",
+      "Final decision: safe, Action: allow"
+    ],
+    "timestamp": "2026-04-04 20:41:56.906917"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "arre haan... yeh UPI collect request kaisa aaya? main toh kuch kiya nahi abhi dekh raha tha TV pe cricket... kya app ne meri app pe call kiya tha?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 85,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "[Guardian] risk=30",
+      "[Indian] signals=['UPI Collect Fraud']",
+      "[Decision] risk=85 \u2192 block_and_bait",
+      "[Bait] reply_generated"
+    ],
+    "timestamp": "2026-04-04 20:47:09.538666"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "warn_and_monitor",
+    "risk_score": 83,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Semantic] match=1, similarity=-0.69, boost=-17",
+      "[Decision] risk=83 \u2192 warn_and_monitor"
+    ],
+    "timestamp": "2026-04-04 20:47:10.177630"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": -17,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "[Indian] signals=[]",
+      "[Semantic] match=2, similarity=-0.71, boost=-17",
+      "[Decision] risk=-17 \u2192 allow"
+    ],
+    "timestamp": "2026-04-04 20:47:10.506766"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "arre bhai, ye kya request hai? main toh kuch kiya nahi... kaun si app pe hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 90,
+    "confidence": 0.9,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "[Guardian] risk=30",
+      "[Indian] signals=['UPI Collect Fraud']",
+      "[Override] Critical scam pattern detected",
+      "[Decision] risk=90 \u2192 block_and_bait",
+      "[Bait] reply_generated"
+    ],
+    "timestamp": "2026-04-04 21:37:55.940069"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "arre bhai, OTP kaha se aayega? mein toh TV dekh raha tha, aata hai toh dekho main... kya screen pe number aya hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "confidence": 1.0,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Override] Critical scam pattern detected",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=100 \u2192 block_and_bait",
+      "[Bait] reply_generated"
+    ],
+    "timestamp": "2026-04-04 21:37:57.246843"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=0 \u2192 allow"
+    ],
+    "timestamp": "2026-04-04 21:37:57.529279"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre haan bhai, kaise approve karega? Main toh kuch samajh nahi paya... UPi kaisa aaya hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 90,
+    "confidence": 0.9,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "[Guardian] risk=30",
+      "[Indian] signals=['UPI Collect Fraud']",
+      "[Override] Critical scam pattern detected",
+      "[Decision] risk=90 \u2192 block_and_bait",
+      "[Bait] reply_generated",
+      "[Action] {'action_taken': 'blocked_sender', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-04 21:41:40.946231"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Bhai, OTP kahan se aaya? Main TV dekh raha tha abhi, to aaya kuch nahi dekha. Kya OTP number screen pe aata hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "confidence": 1.0,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Override] Critical scam pattern detected",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=100 \u2192 block_and_bait",
+      "[Bait] reply_generated",
+      "[Action] {'action_taken': 'blocked_sender', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-04 21:41:41.898076"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'no_action', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-04 21:41:42.295125"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre bhai, yeh request kaisa aaya? Main toh kuch kiya nahi... kaun si app pe hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 90,
+    "confidence": 0.9,
+    "signals": [
+      "UPI Collect Fraud"
+    ],
+    "trace": [
+      "[Guardian] risk=30",
+      "[Indian] signals=['UPI Collect Fraud']",
+      "[Override] Critical scam detected",
+      "[Decision] risk=90 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-04 21:50:19.226352"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre OTP? Aaya toh hai... lekin screen pe number blur ho raha hai mujhe... kya phone par hi kaunse app pe aana chahiye tha?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "confidence": 1.0,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Override] Critical scam detected",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=100 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-04 21:50:20.162344"
+  },
+  {
+    "user_message": "Let's meet tomorrow",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-04 21:50:20.355900"
+  },
+  {
+    "user_message": "UPI collect request approve now",
+    "agent_reply": "Arre hamaare account ke liye koi UPI collect request toh nahi aaya haan... bas TV dekh raha tha abhi, kya yeh app ke madhyam se aaya hai?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 95,
+    "confidence": 0.95,
+    "signals": [
+      "UPI Collect Fraud",
+      "MCP Pattern Match"
+    ],
+    "trace": [
+      "[Guardian] risk=30",
+      "Tool used: pattern_check",
+      "[Indian] signals=['UPI Collect Fraud']",
+      "[Override] Critical scam detected",
+      "[MCP] {'pattern_match': True, 'score': 1}",
+      "[Decision] risk=95 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-05 13:52:23.063454"
+  },
+  {
+    "user_message": "Bhai OTP bhej jaldi",
+    "agent_reply": "Arre bhai, OTP toh maine kahan se le raha hoon? Maine to abhi OTP ki jaroorat nahi samjha... kya yeh bank ke madhyam se aana chahiye tha?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "confidence": 1.0,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request",
+      "MCP Pattern Match"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "Tool used: pattern_check",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Override] Critical scam detected",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': True, 'score': 1}",
+      "[Decision] risk=100 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-05 13:52:26.763375"
+  },
+  {
+    "user_message": "Let's meet tomorrowClick here https://testsafebrowsing.appspot.com/s/phishing.html",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [
+      "Suspicious Link"
+    ],
+    "trace": [
+      "[Guardian] risk=0",
+      "Tool used: url_check",
+      "[Indian] signals=['Suspicious Link']",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-05 13:52:29.173525"
+  }
+]
