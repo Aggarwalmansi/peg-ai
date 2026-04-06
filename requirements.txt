@@ -10,4 +10,4 @@ tavily-python
 
 chromadb==0.4.24
 sentence-transformers==2.2.2
-torch==2.2.2 --index-url
+torch==2.2.2
