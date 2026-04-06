@@ -1,0 +1,53 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.bg-glow {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(244, 43, 3, 0.05) 0%, transparent 70%);
+  filter: blur(100px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bg-glow::after {
+  content: '';
+  position: absolute;
+  bottom: -400px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(250, 200, 100, 0.05) 0%, transparent 70%);
+  filter: blur(100px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Animations from index.css are available */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

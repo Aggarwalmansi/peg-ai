@@ -760,5 +760,231 @@
       "[Action] {'action_taken': 'none', 'status': 'safe'}"
     ],
     "timestamp": "2026-04-05 13:52:29.173525"
+  },
+  {
+    "user_message": "Urgent: Click here to win a prize from your bank!",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "warn_and_monitor",
+    "risk_score": 50,
+    "confidence": 0.5,
+    "signals": [
+      "Suspicious Link",
+      "MCP Pattern Match"
+    ],
+    "trace": [
+      "[Guardian] risk=45",
+      "Tool used: pattern_check",
+      "[Indian] signals=['Suspicious Link']",
+      "[MCP] {'pattern_match': True, 'score': 1}",
+      "[Decision] risk=50 \u2192 warn_and_monitor",
+      "[Action] {'action_taken': 'user_warned', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 19:08:03.949219"
+  },
+  {
+    "user_message": "hello ,lets go lunch it will cost us 1000 only",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-06 19:09:18.062714"
+  },
+  {
+    "user_message": "jaldi paisaaa bejhooo mera bday h",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 25,
+    "confidence": 0.25,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=25",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=25 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-06 19:09:51.285108"
+  },
+  {
+    "user_message": "send you bank opt for kyc",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "warn_and_monitor",
+    "risk_score": 50,
+    "confidence": 0.5,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=50",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=50 \u2192 warn_and_monitor",
+      "[Action] {'action_taken': 'user_warned', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 19:10:20.013920"
+  },
+  {
+    "user_message": "bhaiiii jaldi opt bata 5 min ke andar ,varna bank account lock ho jayega",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "log_only",
+    "risk_score": 45,
+    "confidence": 0.45,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=45",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=45 \u2192 log_only",
+      "[Action] {'action_taken': 'logged', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 19:10:53.700800"
+  },
+  {
+    "user_message": "bhaaiii jaldi paisa bhej , and bank otp bhi",
+    "agent_reply": "arre bhai, paisa bhejne ki kya zaroorat hai? koi loan hai ya kuchh?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 100,
+    "confidence": 1.0,
+    "signals": [
+      "OTP Theft Attempt",
+      "Urgent Money Request",
+      "MCP Pattern Match"
+    ],
+    "trace": [
+      "[Guardian] risk=75",
+      "Tool used: pattern_check",
+      "[Indian] signals=['OTP Theft Attempt', 'Urgent Money Request']",
+      "[Override] Critical scam detected",
+      "[Semantic] similarity=0.25 boost=4",
+      "[MCP] {'pattern_match': True, 'score': 1}",
+      "[Decision] risk=100 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 19:11:35.812052"
+  },
+  {
+    "user_message": "ha bhaii theek h n . salary aa gyii partyyyy",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0.03 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-06 19:12:18.303739"
+  },
+  {
+    "user_message": "hello behen mujhe jaldi se 40000 bhej do yrr , mujhe bank me krna hai transfer",
+    "agent_reply": "arre haan bhai, kya hua diwali ke baad ye zaroorat aayi? samjha nahi aaya kiske liye 40,000 bhejne the?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 80,
+    "confidence": 0.8,
+    "signals": [
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=75",
+      "Tool used: pattern_check",
+      "[Indian] signals=['Urgent Money Request']",
+      "[Semantic] similarity=0.28 boost=5",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=80 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 22:29:28.644508"
+  },
+  {
+    "user_message": "Urgent: transfer $500 immediately to this account link!",
+    "agent_reply": "Bhai kya hua? Account link kaisa hai? TV dekh raha tha, toh aisa link kahan se aaya?",
+    "decision": "scam",
+    "action": "block_and_bait",
+    "risk_score": 95,
+    "confidence": 0.95,
+    "signals": [
+      "Urgent Money Request",
+      "Suspicious Link",
+      "MCP Pattern Match"
+    ],
+    "trace": [
+      "[Guardian] risk=75",
+      "Tool used: pattern_check",
+      "[Indian] signals=['Urgent Money Request', 'Suspicious Link']",
+      "[MCP] {'pattern_match': True, 'score': 1}",
+      "[Decision] risk=95 \u2192 block_and_bait",
+      "[Bait] generated",
+      "[Action] {'action_taken': ['blocked_sender', 'bait_engaged', 'flagged_as_scam'], 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 22:48:58.150100"
+  },
+  {
+    "user_message": "hello ram ram bua ji , kuch pizza ho jaye",
+    "agent_reply": null,
+    "decision": "safe",
+    "action": "allow",
+    "risk_score": 0,
+    "confidence": 0.0,
+    "signals": [],
+    "trace": [
+      "[Guardian] risk=0",
+      "Tool used: pattern_check",
+      "[Indian] signals=[]",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=0 \u2192 allow",
+      "[Action] {'action_taken': 'none', 'status': 'safe'}"
+    ],
+    "timestamp": "2026-04-06 23:04:05.812352"
+  },
+  {
+    "user_message": "bhaiii 300000 bhej , mera yaha station me fasa huu. , jaldi bhej",
+    "agent_reply": null,
+    "decision": "scam",
+    "action": "warn_and_monitor",
+    "risk_score": 70,
+    "confidence": 0.7,
+    "signals": [
+      "Urgent Money Request"
+    ],
+    "trace": [
+      "[Guardian] risk=55",
+      "Tool used: pattern_check",
+      "[Indian] signals=['Urgent Money Request']",
+      "[Semantic] similarity=0 boost=0",
+      "[MCP] {'pattern_match': False, 'score': 0}",
+      "[Decision] risk=70 \u2192 warn_and_monitor",
+      "[Action] {'action_taken': 'user_warned', 'status': 'success'}"
+    ],
+    "timestamp": "2026-04-06 23:04:34.262610"
   }
 ]
