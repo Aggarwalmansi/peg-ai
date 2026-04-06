@@ -1,4 +1,6 @@
---extra-index-url https://download.pytorch.org/whl/cpu
+--index-url https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
+
 fastapi
 uvicorn
 pydantic
@@ -10,4 +12,4 @@ tavily-python
 
 chromadb==0.4.24
 sentence-transformers==2.2.2
-torch==2.2.2
+torch==2.2.2+cpu
