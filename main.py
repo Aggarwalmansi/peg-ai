@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import logging
 import os
+import traceback
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -11,15 +13,47 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="PEG AI Backend")
 
 # -----------------------------
-# CORS Middleware
+# CORS Middleware (Proper Production Config)
 # -----------------------------
+# Allow local dev and any Vercel deployment
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
+]
+
+# Get origins from environment if provided (comma-separated string)
+env_origins = os.environ.get("ALLOWED_ORIGINS")
+if env_origins:
+    origins.extend([o.strip() for o in env_origins.split(",")])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
+    allow_origin_regex=r"https://.*\.vercel\.app", # Allow all vercel previews
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# -----------------------------
+# Global Error Handler
+# Ensures CORS headers are SENT even on 500 errors
+# -----------------------------
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(f"GLOBAL ERROR: {str(exc)}")
+    logger.error(traceback.format_exc())
+    
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "Internal Server Error", 
+            "detail": str(exc),
+            "status": "error"
+        }
+    )
 
 # -------------------------
 # Health Check (Fastest Path)
