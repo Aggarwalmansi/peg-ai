@@ -8,7 +8,7 @@ uvicorn
 pydantic
 python-dotenv
 requests
-
+numpy==1.26.4
 # Intelligence & Agents
 langgraph
 groq
