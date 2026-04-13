@@ -1,16 +1,22 @@
 import os
+import logging
 from groq import Groq
 from dotenv import load_dotenv
 
-# Load .env file
 load_dotenv()
 
-api_key = os.getenv("GROQ_API_KEY")
+logger = logging.getLogger(__name__)
+_client = None
 
-if not api_key:
-    raise ValueError("GROQ_API_KEY not found. Check your .env file.")
-
-client = Groq(api_key=api_key)
+def _get_client():
+    global _client
+    if _client is None:
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            logger.warning("GROQ_API_KEY not set. LLM classification will be skipped.")
+            return None
+        _client = Groq(api_key=api_key)
+    return _client
 
 def llm_classify(message):
     # The 'system' role sets the persona, the 'user' role provides the data
@@ -40,7 +46,11 @@ def llm_classify(message):
     """
 
     try:
-        response = client.chat.completions.create(
+        groq_client = _get_client()
+        if groq_client is None:
+            return "safe"  # graceful degradation when no API key
+
+        response = groq_client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.1
@@ -49,5 +59,5 @@ def llm_classify(message):
         return response.choices[0].message.content.strip().lower()
 
     except Exception as e:
-        print("LLM Error:", e)
+        logger.error(f"LLM Error: {e}")
         return "safe"

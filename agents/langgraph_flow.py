@@ -13,7 +13,6 @@ from memory.long_term_memory import store_event
 from memory.vector_memory import store_vector_event, search_similar
 from tools.url_intelligence import analyze_urls
 from agents.tool_executor import run_tool
-from peg_mcp.client.peg_client import run_mcp
 
 # -----------------------------
 # STATE DEFINITION
@@ -278,9 +277,9 @@ def tool_node(state: AgentState):
 def mcp_tool_node(state: AgentState):
 
     try:
+        from peg_mcp.client.peg_client import run_mcp
         result = run_mcp(state["message"])
 
-        # MCP returns text → parse it
         raw = result.content[0].text
 
         import json
@@ -288,12 +287,12 @@ def mcp_tool_node(state: AgentState):
 
         state["trace"].append(f"[MCP] {parsed}")
 
-        # 🔥 INTELLIGENCE INJECTION
         if parsed.get("pattern_match"):
             state["risk_score"] += parsed.get("score", 1) * 5
-
             state["signals"].append("MCP Pattern Match")
 
+    except ImportError:
+        state["trace"].append("[MCP] Skipped (mcp package not installed)")
     except Exception as e:
         state["trace"].append(f"[MCP ERROR] {str(e)}")
 
