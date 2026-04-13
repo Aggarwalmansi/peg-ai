@@ -322,8 +322,7 @@ def build_graph():
     builder.add_node("tool", tool_node)
     builder.set_entry_point("guardian")
 
-    builder.add_edge("guardian", "tool")
-    builder.add_edge("tool", "intelligence")
+    builder.add_edge("guardian", "intelligence")
     builder.add_edge("intelligence", "semantic")
     builder.add_edge("semantic", "mcp_tool")
     builder.add_edge("mcp_tool", "decision")

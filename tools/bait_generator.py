@@ -112,7 +112,8 @@ WHAT REAL HINGLISH SOUNDS LIKE:
                 {"role": "user", "content": user_prompt}
             ],
             temperature=0.85,
-            max_tokens=60
+            max_tokens=60,
+            timeout=4.0
         )
 
         reply = response.choices[0].message.content.strip()

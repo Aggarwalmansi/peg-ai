@@ -58,7 +58,7 @@ def check_url_safety_google(url):
     }
 
     try:
-        res = requests.post(endpoint, json=body)
+        res = requests.post(endpoint, json=body, timeout=3.0)
         data = res.json()
 
         if "matches" in data:
