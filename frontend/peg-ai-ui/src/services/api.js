@@ -1,7 +1,9 @@
 export async function analyzeMessage(message) {
-  const API_URL = "http://localhost:8000/analyze";
+  // Use Vite environment variable for API URL
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+  const API_URL = `${BASE_URL}/analyze`;
   
-  console.log(`[PEG] Sending message for analysis: "${message}"`);
+  console.log(`[PEG] Requesting analysis from: ${API_URL}`);
   
   try {
     const res = await fetch(API_URL, {
@@ -15,24 +17,17 @@ export async function analyzeMessage(message) {
     if (!res.ok) {
       const errorText = await res.text();
       console.error(`[PEG] Backend Error (${res.status}):`, errorText);
-      throw new Error(`Server responded with ${res.status}: ${errorText}`);
+      throw new Error(`Server Error (${res.status}): ${errorText}`);
     }
 
     const data = await res.json();
-    console.log("[PEG] Analysis result received:", data);
+    console.log("[PEG] Analysis success:", data);
     return data;
 
   } catch (error) {
     console.error("[PEG] Connection failed:", error.message);
     
-    // Explicitly fail to ensure frontend uses REAL backend
-    return {
-      risk_score: 0,
-      decision: "ERROR",
-      action: "NONE",
-      signals: ["Connection Error"],
-      recommendation: "Failed to connect to PEG Engine. Ensure backend is running.",
-      trace: ["[System] API Connection Failed: " + error.message]
-    };
+    // Throw error to be handled by the UI component's catch block
+    throw error;
   }
 }
