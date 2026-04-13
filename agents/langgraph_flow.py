@@ -34,6 +34,7 @@ class AgentState(TypedDict):
     tool_call: dict
     action_result: dict
     recommendation: str
+    llm_decision: str
 
 
 # -----------------------------
@@ -60,6 +61,7 @@ def guardian_node(state: AgentState):
     state["context"] = context
     state["risk_score"] = result["risk_score"]
     state["decision"] = result["final_decision"]
+    state["llm_decision"] = result.get("llm_prediction", "safe")
 
     return state
 
@@ -257,7 +259,7 @@ def memory_node(state: AgentState):
 
 def url_node(state: AgentState):
 
-    result = analyze_urls(state["message"])
+    result = analyze_urls(state["message"], state.get("llm_decision", "safe"))
 
     if result["malicious"]:
         state["risk_score"] += result["risk_boost"]

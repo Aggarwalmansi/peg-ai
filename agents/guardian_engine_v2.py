@@ -9,24 +9,45 @@ from agents.honeypot_agent import generate_bait_reply
 logger = logging.getLogger(__name__)
 
 # -----------------------------
-# LAZY LOADERS
+# LAZY LOADERS (True Singleton)
 # -----------------------------
+_guardian_model = None
+_guardian_vectorizer = None
 
-@functools.lru_cache(maxsize=1)
 def get_model():
-    """Lazy-load the guardian classification model."""
-    model_path = "models/guardian_model_v1.pkl"
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model file not found at {model_path}")
-    return pickle.load(open(model_path, "rb"))
+    """Lazy-load the guardian classification model safely."""
+    global _guardian_model
+    if _guardian_model == "FAILED":
+        raise FileNotFoundError("Model file previously failed to load.")
+    if _guardian_model is None:
+        model_path = "models/guardian_model_v1.pkl"
+        if not os.path.exists(model_path):
+            _guardian_model = "FAILED"
+            raise FileNotFoundError(f"Model file not found at {model_path}")
+        try:
+            _guardian_model = pickle.load(open(model_path, "rb"))
+        except Exception as e:
+            _guardian_model = "FAILED"
+            raise e
+    return _guardian_model
 
-@functools.lru_cache(maxsize=1)
+
 def get_vectorizer():
-    """Lazy-load the text vectorizer."""
-    vec_path = "models/vectorizer_v1.pkl"
-    if not os.path.exists(vec_path):
-        raise FileNotFoundError(f"Vectorizer file not found at {vec_path}")
-    return pickle.load(open(vec_path, "rb"))
+    """Lazy-load the text vectorizer safely."""
+    global _guardian_vectorizer
+    if _guardian_vectorizer == "FAILED":
+        raise FileNotFoundError("Vectorizer file previously failed to load.")
+    if _guardian_vectorizer is None:
+        vec_path = "models/vectorizer_v1.pkl"
+        if not os.path.exists(vec_path):
+            _guardian_vectorizer = "FAILED"
+            raise FileNotFoundError(f"Vectorizer file not found at {vec_path}")
+        try:
+            _guardian_vectorizer = pickle.load(open(vec_path, "rb"))
+        except Exception as e:
+            _guardian_vectorizer = "FAILED"
+            raise e
+    return _guardian_vectorizer
 
 def analyze_message(message):
     """

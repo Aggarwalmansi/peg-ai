@@ -70,7 +70,7 @@ def check_url_safety_google(url):
     return False
 
 
-def analyze_urls(message):
+def analyze_urls(message, llm_decision="safe"):
     urls = extract_urls(message)
 
     # Fast exit: no URLs, no LLM call needed
@@ -80,11 +80,8 @@ def analyze_urls(message):
             "risk_boost": 0
         }
 
-    # Only call LLM when URLs are present to avoid extra Groq latency
-    from tools.llm_guardian import llm_classify
-    llm_decision = llm_classify(message)
-
     for url in urls:
+
 
         print("🔍 Checking URL:", url)
 
