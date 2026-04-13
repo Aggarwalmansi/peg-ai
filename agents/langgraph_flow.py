@@ -97,10 +97,14 @@ def intelligence_node(state: AgentState):
 # -----------------------------
 def semantic_node(state: AgentState):
 
-    results = search_similar(state["message"])
-
-    docs = results.get("documents", [[]])[0]
-    distances = results.get("distances", [[]])[0]
+    try:
+        results = search_similar(state["message"])
+        docs = results.get("documents", [[]])[0]
+        distances = results.get("distances", [[]])[0]
+    except Exception:
+        # Collection may be empty on fresh deployment — skip semantic boost
+        docs = []
+        distances = []
 
     # CRITICAL OVERRIDE
     if any(sig in state.get("signals", []) for sig in CRITICAL_SIGNALS):

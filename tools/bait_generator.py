@@ -1,10 +1,21 @@
 from groq import Groq
 import os
+import logging
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+logger = logging.getLogger(__name__)
+_client = None
+
+def _get_client():
+    global _client
+    if _client is None:
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            return None
+        _client = Groq(api_key=api_key)
+    return _client
 
 
 def generate_bait_reply(message: str, context=None, signals=None) -> str:
@@ -90,7 +101,11 @@ WHAT REAL HINGLISH SOUNDS LIKE:
     """
 
     try:
-        response = client.chat.completions.create(
+        groq_client = _get_client()
+        if groq_client is None:
+            return None
+
+        response = groq_client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -105,5 +120,6 @@ WHAT REAL HINGLISH SOUNDS LIKE:
         # clean weird quotes
         return reply.replace('"', '').strip()
 
-    except Exception:
+    except Exception as e:
+        logger.error(f"Bait generation error: {e}")
         return None

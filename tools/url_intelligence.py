@@ -71,14 +71,18 @@ def check_url_safety_google(url):
 
 
 def analyze_urls(message):
-    from tools.llm_guardian import llm_classify
     urls = extract_urls(message)
-    llm_decision = llm_classify(message)
+
+    # Fast exit: no URLs, no LLM call needed
     if not urls:
         return {
             "malicious": False,
             "risk_boost": 0
         }
+
+    # Only call LLM when URLs are present to avoid extra Groq latency
+    from tools.llm_guardian import llm_classify
+    llm_decision = llm_classify(message)
 
     for url in urls:
 
