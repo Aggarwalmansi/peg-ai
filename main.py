@@ -31,10 +31,11 @@ if env_origins:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"https://.*\.vercel\.app", # Allow all vercel previews
+    allow_origin_regex=r"^https://.*\.vercel\.app$", # Strictly allow all vercel domains safely
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 # -----------------------------
@@ -46,12 +47,19 @@ async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"GLOBAL ERROR: {str(exc)}")
     logger.error(traceback.format_exc())
     
+    # Safely get origin from request for the CORS header fallback
+    origin = request.headers.get("origin", "*")
+    
     return JSONResponse(
         status_code=500,
         content={
             "error": "Internal Server Error", 
             "detail": str(exc),
             "status": "error"
+        },
+        headers={
+            "Access-Control-Allow-Origin": origin,
+            "Access-Control-Allow-Credentials": "true",
         }
     )
 
