@@ -15,7 +15,6 @@ groq
 tavily-python
 
 # ML Core (Heavy - Lazy Loaded)
-torch==2.2.2+cpu
 sentence-transformers==2.2.2
 chromadb==0.4.24
 scikit-learn
