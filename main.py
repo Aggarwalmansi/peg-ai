@@ -2,13 +2,11 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import logging
+import os
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# Import your supervisor (LangGraph or normal)
-from agents.supervisor_graph import run_supervisor
 
 app = FastAPI(title="PEG AI Backend")
 
@@ -17,11 +15,18 @@ app = FastAPI(title="PEG AI Backend")
 # -----------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For dev, allow all. In prod, use: ["http://localhost:5173"]
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# -------------------------
+# Health Check (Fastest Path)
+# -------------------------
+@app.get("/")
+def root():
+    return {"status": "PEG AI running", "version": "1.0.1"}
 
 # -------------------------
 # Request Schema
@@ -29,12 +34,14 @@ app.add_middleware(
 class MessageRequest(BaseModel):
     message: str
 
-
 # -------------------------
-# API Route
+# API Route (Lazy-loads Agents on first call)
 # -------------------------
 @app.post("/analyze")
 def analyze(req: MessageRequest):
+    # DEFERRED IMPORT to prevent startup lag
+    from agents.supervisor_graph import run_supervisor
+    
     logger.info(f"Analyzing message: {req.message}")
     
     try:
@@ -62,10 +69,7 @@ def analyze(req: MessageRequest):
             "recommendation": "Backend error occurred. Please try again later."
         }
 
-
-# -------------------------
-# Health Check
-# -------------------------
-@app.get("/")
-def root():
-    return {"status": "PEG AI running"}
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

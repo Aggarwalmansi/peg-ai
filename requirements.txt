@@ -1,15 +1,21 @@
+# Indices for optimized CPU installs
 --index-url https://download.pytorch.org/whl/cpu
 --extra-index-url https://pypi.org/simple
 
+# Web Infrastructure
 fastapi
 uvicorn
 pydantic
 python-dotenv
-groq
 requests
+
+# Intelligence & Agents
 langgraph
+groq
 tavily-python
 
-chromadb==0.4.24
-sentence-transformers==2.2.2
+# ML Core (Heavy - Lazy Loaded)
 torch==2.2.2+cpu
+sentence-transformers==2.2.2
+chromadb==0.4.24
+scikit-learn

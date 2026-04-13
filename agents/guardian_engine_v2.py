@@ -1,11 +1,29 @@
 import pickle
+import functools
+import os
 from tools.behavior_engine import behavioral_score
 from tools.llm_guardian import llm_classify
 from agents.honeypot_agent import generate_bait_reply
 
-# Load models once at the start
-model = pickle.load(open("models/guardian_model_v1.pkl", "rb"))
-vectorizer = pickle.load(open("models/vectorizer_v1.pkl", "rb"))
+# -----------------------------
+# LAZY LOADERS
+# -----------------------------
+
+@functools.lru_cache(maxsize=1)
+def get_model():
+    """Lazy-load the guardian classification model."""
+    model_path = "models/guardian_model_v1.pkl"
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Model file not found at {model_path}")
+    return pickle.load(open(model_path, "rb"))
+
+@functools.lru_cache(maxsize=1)
+def get_vectorizer():
+    """Lazy-load the text vectorizer."""
+    vec_path = "models/vectorizer_v1.pkl"
+    if not os.path.exists(vec_path):
+        raise FileNotFoundError(f"Vectorizer file not found at {vec_path}")
+    return pickle.load(open(vec_path, "rb"))
 
 def analyze_message(message):
     """
@@ -13,6 +31,9 @@ def analyze_message(message):
     LLM reasoning, and the Honeypot bait generation.
     """
     # 1. ML Prediction (Handling 0/1 to string conversion)
+    vectorizer = get_vectorizer()
+    model = get_model()
+    
     vec = vectorizer.transform([message])
     ml_res = model.predict(vec)[0]
     # Convert numeric ML output to string for consistent logic
