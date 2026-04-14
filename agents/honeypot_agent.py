@@ -1,5 +1,6 @@
 import os
 import logging
+import re
 
 try:
     from groq import Groq
@@ -32,6 +33,16 @@ def _get_client():
 
 
 def generate_bait_reply(message):
+    def fallback_reply(text: str) -> str:
+        lower = text.lower()
+        if "otp" in lower:
+            return "OTP aaya hai shayad, par kaunsa number bolna hai bhai?"
+        if any(word in lower for word in ["upi", "collect", "request"]):
+            return "Yeh request kahan pe aaya bhai, app kholo kya pehle?"
+        if re.search(r"https?://", lower):
+            return "Yeh link kisliye hai bhai, kaunse app mein khulega?"
+        return "Acha bhai thoda clearly bolo na, karna kya hai mujhe abhi?"
+
     system_rules = """
     ROLE: You are an average Indian user (busy Student or distracted Auntie). 
     
@@ -69,7 +80,7 @@ def generate_bait_reply(message):
     try:
         client = _get_client()
         if client is None:
-            return None
+            return fallback_reply(message)
 
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -82,7 +93,7 @@ def generate_bait_reply(message):
         )
         return response.choices[0].message.content.strip().replace('"', '') 
     except Exception:
-        return None
+        return fallback_reply(message)
 
 # Example Usage
 # print(generate_bait_reply("Sir, pay 25 rupees now for your parcel release."))

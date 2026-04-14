@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+import sys
 
 mcp = FastMCP("peg-server")
 
@@ -40,5 +41,5 @@ def get_history():
 
 
 if __name__ == "__main__":
-    print("PEG MCP Server Starting...")
+    print("PEG MCP Server Starting...", file=sys.stderr)
     mcp.run()

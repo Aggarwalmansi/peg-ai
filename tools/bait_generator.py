@@ -1,5 +1,6 @@
 import os
 import logging
+import re
 
 try:
     from groq import Groq
@@ -28,6 +29,23 @@ def _get_client():
             return None
         _client = Groq(api_key=api_key)
     return _client
+
+
+def _fallback_bait_reply(message: str, signals=None) -> str:
+    msg = message.lower()
+    signal_text = " ".join(signals or []).lower()
+
+    if "otp" in msg or "otp" in signal_text:
+        return "OTP aaya toh hai bhai, lekin 4 digit hai ya 6 digit, samajh nahi aaya mujhe?"
+    if any(word in msg for word in ["upi", "collect", "request"]) or "upi" in signal_text:
+        return "Accha yeh UPI request kis app pe dikh raha hai bhai, main thoda confuse ho gaya?"
+    if any(word in msg for word in ["bank", "kyc", "account"]):
+        return "Bank se ho kya bhai, pehle naam aur branch batao na, samajh nahi aa raha?"
+    if re.search(r"https?://", msg):
+        return "Yeh link kisliye bheja hai bhai, kaunse app mein kholna hota hai?"
+    if any(word in msg for word in ["money", "send", "transfer", "paise", "bhej"]):
+        return "Haan bhai dekh raha hoon, par pehle bolo exactly kiski taraf se mang rahe ho?"
+    return "Acha bhai thoda dheere bolo, kaunsi company se ho aur karna kya hai abhi?"
 
 
 def generate_bait_reply(message: str, context=None, signals=None) -> str:
@@ -115,7 +133,7 @@ WHAT REAL HINGLISH SOUNDS LIKE:
     try:
         groq_client = _get_client()
         if groq_client is None:
-            return None
+            return _fallback_bait_reply(message, signals)
 
         response = groq_client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -135,4 +153,4 @@ WHAT REAL HINGLISH SOUNDS LIKE:
 
     except Exception as e:
         logger.error(f"Bait generation error: {e}")
-        return None
+        return _fallback_bait_reply(message, signals)

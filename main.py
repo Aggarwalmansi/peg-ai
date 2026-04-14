@@ -81,12 +81,11 @@ class MessageRequest(BaseModel):
 # -------------------------
 @app.post("/analyze")
 def analyze(req: MessageRequest):
-    # DEFERRED IMPORT to prevent startup lag
-    from agents.supervisor_graph import run_supervisor
-    
-    logger.info(f"Analyzing message: {req.message}")
-    
     try:
+        # DEFERRED IMPORT to prevent startup lag
+        from agents.supervisor_graph import run_supervisor
+
+        logger.info(f"Analyzing message: {req.message}")
         result = run_supervisor(req.message)
         logger.info(f"Analysis result: {result}")
         

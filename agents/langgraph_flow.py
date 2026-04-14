@@ -206,11 +206,13 @@ def bait_node(state: AgentState):
 
         if bait:
             add_message(state["session_id"], bait, "agent")
-
-        state["trace"].append("[Bait] generated")
+            state["trace"].append("[Bait] generated")
+        else:
+            state["trace"].append("[Bait] unavailable")
 
     else:
         state["bait_reply"] = None
+        state["trace"].append("[Bait] skipped")
 
     return state
 
@@ -284,12 +286,7 @@ def mcp_tool_node(state: AgentState):
 
     try:
         from peg_mcp.client.peg_client import run_mcp
-        result = run_mcp(state["message"])
-
-        raw = result.content[0].text
-
-        import json
-        parsed = json.loads(raw)
+        parsed = run_mcp(state["message"])
 
         state["trace"].append(f"[MCP] {parsed}")
 
@@ -322,7 +319,8 @@ def build_graph():
     builder.add_node("tool", tool_node)
     builder.set_entry_point("guardian")
 
-    builder.add_edge("guardian", "intelligence")
+    builder.add_edge("guardian", "tool")
+    builder.add_edge("tool", "intelligence")
     builder.add_edge("intelligence", "semantic")
     builder.add_edge("semantic", "mcp_tool")
     builder.add_edge("mcp_tool", "decision")
