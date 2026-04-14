@@ -4,6 +4,7 @@ from collections import defaultdict
 
 # In-memory store (later Redis)
 session_store = defaultdict(list)
+MAX_MESSAGES_PER_SESSION = 20
 
 
 def add_message(session_id: str, message: str, role: str):
@@ -14,6 +15,7 @@ def add_message(session_id: str, message: str, role: str):
         "role": role,
         "message": message
     })
+    session_store[session_id] = session_store[session_id][-MAX_MESSAGES_PER_SESSION:]
 
 
 def get_context(session_id: str, limit: int = 3):

@@ -1,12 +1,13 @@
 import pickle
-import functools
 import os
 import logging
+from pathlib import Path
 from tools.behavior_engine import behavioral_score
 from tools.llm_guardian import llm_classify
 from agents.honeypot_agent import generate_bait_reply
 
 logger = logging.getLogger(__name__)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # -----------------------------
 # LAZY LOADERS (True Singleton)
@@ -20,12 +21,13 @@ def get_model():
     if _guardian_model == "FAILED":
         raise FileNotFoundError("Model file previously failed to load.")
     if _guardian_model is None:
-        model_path = "models/guardian_model_v1.pkl"
-        if not os.path.exists(model_path):
+        model_path = BASE_DIR / "models" / "guardian_model_v1.pkl"
+        if not model_path.exists():
             _guardian_model = "FAILED"
             raise FileNotFoundError(f"Model file not found at {model_path}")
         try:
-            _guardian_model = pickle.load(open(model_path, "rb"))
+            with model_path.open("rb") as model_file:
+                _guardian_model = pickle.load(model_file)
         except Exception as e:
             _guardian_model = "FAILED"
             raise e
@@ -38,12 +40,13 @@ def get_vectorizer():
     if _guardian_vectorizer == "FAILED":
         raise FileNotFoundError("Vectorizer file previously failed to load.")
     if _guardian_vectorizer is None:
-        vec_path = "models/vectorizer_v1.pkl"
-        if not os.path.exists(vec_path):
+        vec_path = BASE_DIR / "models" / "vectorizer_v1.pkl"
+        if not vec_path.exists():
             _guardian_vectorizer = "FAILED"
             raise FileNotFoundError(f"Vectorizer file not found at {vec_path}")
         try:
-            _guardian_vectorizer = pickle.load(open(vec_path, "rb"))
+            with vec_path.open("rb") as vectorizer_file:
+                _guardian_vectorizer = pickle.load(vectorizer_file)
         except Exception as e:
             _guardian_vectorizer = "FAILED"
             raise e

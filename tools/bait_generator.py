@@ -1,7 +1,16 @@
-from groq import Groq
 import os
 import logging
-from dotenv import load_dotenv
+
+try:
+    from groq import Groq
+except ImportError:  # pragma: no cover - optional dependency in some environments
+    Groq = None
+
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - optional dependency in some environments
+    def load_dotenv():
+        return False
 
 load_dotenv()
 
@@ -11,6 +20,9 @@ _client = None
 def _get_client():
     global _client
     if _client is None:
+        if Groq is None:
+            logger.warning("groq package not installed. Bait generation will be skipped.")
+            return None
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             return None

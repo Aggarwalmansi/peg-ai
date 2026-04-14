@@ -10,7 +10,10 @@ venv/
 .env/
 
 # Models
+# Keep deployable model artifacts tracked; ignore any other generated model files.
 models/*.pkl
+!models/guardian_model_v1.pkl
+!models/vectorizer_v1.pkl
 
 # Data
 data/raw/
