@@ -1,8 +1,8 @@
 @import './styles/theme.css';
 
 :root {
-  --sans: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
-  color-scheme: dark;
+  --sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
+  color-scheme: light;
 }
 
 * {
@@ -16,7 +16,10 @@ html {
 }
 
 body {
-  background-color: var(--bg-dark);
+  background:
+    radial-gradient(circle at top left, rgba(170, 194, 199, 0.45), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(216, 231, 234, 0.85), transparent 32%),
+    linear-gradient(180deg, #eef5f6 0%, #edf4f5 38%, #f4f1ec 100%);
   color: var(--text-primary);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
@@ -54,16 +57,16 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: rgba(148, 180, 187, 0.12);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-input);
+  background: rgba(111, 142, 149, 0.28);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--border);
+  background: rgba(111, 142, 149, 0.42);
 }
 
 @keyframes fadeIn {

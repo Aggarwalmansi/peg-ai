@@ -15,9 +15,9 @@ const ActionPanel = ({ analysis }) => {
           <span style={{ 
             ...styles.value, 
             color: isSafe ? 'var(--safe)' : 'var(--scam)',
-            background: isSafe ? 'rgba(74, 222, 128, 0.1)' : 'rgba(248, 113, 113, 0.1)',
-            padding: '2px 8px',
-            borderRadius: '4px',
+            background: isSafe ? 'rgba(78, 138, 113, 0.12)' : 'rgba(179, 108, 103, 0.12)',
+            padding: '0.4rem 0.8rem',
+            borderRadius: '999px',
             fontSize: '0.8rem',
             textTransform: 'uppercase',
             fontWeight: '800'
@@ -38,7 +38,7 @@ const ActionPanel = ({ analysis }) => {
             {signals.map((sig, i) => (
               <span key={i} style={{
                 ...styles.tag,
-                borderColor: isSafe ? 'var(--border)' : 'rgba(248, 113, 113, 0.4)',
+                borderColor: isSafe ? 'var(--border)' : 'rgba(179, 108, 103, 0.35)',
                 color: isSafe ? 'var(--text-secondary)' : 'var(--scam)'
               }}>{sig}</span>
             ))}
@@ -76,12 +76,13 @@ const ActionPanel = ({ analysis }) => {
 const styles = {
   container: {
     marginTop: '1.5rem',
-    borderRadius: '12px',
-    background: 'var(--bg-card)',
+    borderRadius: '28px',
+    background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(244,248,249,0.88) 100%)',
     border: '1px solid var(--border)',
-    padding: '1.5rem',
+    padding: '1.6rem',
     animation: 'fadeIn 0.5s ease-out',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+    boxShadow: 'var(--shadow-card)',
+    backdropFilter: 'blur(18px)',
   },
   grid: {
     display: 'grid',
@@ -93,18 +94,22 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '0.4rem',
+    padding: '0.95rem 1rem',
+    background: 'rgba(255,255,255,0.52)',
+    borderRadius: '18px',
+    border: '1px solid rgba(111, 142, 149, 0.08)',
   },
   label: {
     fontSize: '0.7rem',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
+    letterSpacing: '0.14em',
     color: 'var(--text-muted)',
     fontWeight: '700',
   },
   value: {
     fontSize: '1rem',
     color: 'var(--text-primary)',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   section: {
     marginTop: '1.2rem',
@@ -117,9 +122,9 @@ const styles = {
   },
   tag: {
     fontSize: '0.75rem',
-    padding: '0.3rem 0.7rem',
-    background: 'var(--bg-input)',
-    borderRadius: '6px',
+    padding: '0.45rem 0.8rem',
+    background: 'rgba(255,255,255,0.7)',
+    borderRadius: '999px',
     color: 'var(--text-secondary)',
     border: '1px solid var(--border)',
   },
@@ -127,14 +132,14 @@ const styles = {
     fontSize: '0.9rem',
     color: 'var(--text-secondary)',
     marginTop: '0.4rem',
-    lineHeight: '1.5',
+    lineHeight: '1.65',
   },
   baitSection: {
     marginTop: '1.5rem',
-    padding: '1rem',
-    background: 'rgba(244, 43, 3, 0.05)',
-    borderRadius: '8px',
-    border: '1px dashed var(--primary)',
+    padding: '1.1rem 1.15rem',
+    background: 'linear-gradient(180deg, rgba(214,228,231,0.48), rgba(255,255,255,0.68))',
+    borderRadius: '20px',
+    border: '1px solid rgba(111, 142, 149, 0.18)',
   },
   baitHeader: {
     display: 'flex',
@@ -149,12 +154,13 @@ const styles = {
     color: 'var(--primary)',
     fontWeight: '700',
     textTransform: 'uppercase',
+    letterSpacing: '0.12em',
   },
   baitText: {
-    fontSize: '0.9rem',
+    fontSize: '0.95rem',
     fontStyle: 'italic',
     color: 'var(--text-primary)',
-    lineHeight: '1.6',
+    lineHeight: '1.7',
   },
 };
 

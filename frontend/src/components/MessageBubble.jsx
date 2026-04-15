@@ -36,11 +36,12 @@ const MessageBubble = ({ message, type, analysis, loading }) => {
     }}>
       <div style={{ 
         ...styles.bubble, 
-        background: isUser ? 'var(--bg-input)' : 'transparent',
-        border: isUser ? '1px solid var(--border)' : 'none',
-        padding: isUser ? '0.8rem 1.2rem' : '0',
+        background: isUser ? 'linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(230,239,241,0.7) 100%)' : 'transparent',
+        border: isUser ? '1px solid var(--border-strong)' : 'none',
+        padding: isUser ? '0.95rem 1.25rem' : '0',
         borderRadius: isUser ? '18px 18px 4px 18px' : '0',
         maxWidth: isUser ? '80%' : '100%',
+        boxShadow: isUser ? '0 14px 32px rgba(111, 142, 149, 0.12)' : 'none',
       }}>
         {isUser ? (
           <p style={styles.text}>{message}</p>
@@ -90,7 +91,7 @@ const styles = {
     transition: 'all 0.3s ease',
   },
   text: {
-    fontSize: '0.95rem',
+    fontSize: '0.96rem',
     color: 'var(--text-primary)',
     lineHeight: '1.5',
   },
@@ -108,7 +109,7 @@ const styles = {
     fontWeight: '700',
     color: 'var(--text-secondary)',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
+    letterSpacing: '0.12em',
   },
   pulse: {
     width: '8px',
@@ -134,7 +135,7 @@ const styles = {
   },
   loadingBar: {
     height: '14px',
-    background: 'var(--bg-input)',
+    background: 'linear-gradient(90deg, rgba(216,231,234,0.8), rgba(255,255,255,0.9))',
     borderRadius: '4px',
     width: '100%',
     animation: 'pulse 1.5s infinite',

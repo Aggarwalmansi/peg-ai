@@ -55,15 +55,15 @@ const ReasoningPipeline = ({ trace, isScam }) => {
 const styles = {
   container: {
     marginTop: '1.5rem',
-    background: 'rgba(0, 0, 0, 0.2)',
-    borderRadius: '8px',
+    background: 'rgba(255, 255, 255, 0.56)',
+    borderRadius: '20px',
     border: '1px solid var(--border)',
     overflow: 'hidden',
   },
   toggleBtn: {
     width: '100%',
     textAlign: 'left',
-    padding: '0.8rem 1rem',
+    padding: '1rem 1.1rem',
     background: 'transparent',
     border: 'none',
     cursor: 'pointer',
@@ -76,10 +76,10 @@ const styles = {
     fontWeight: '700',
     color: 'var(--text-secondary)',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
+    letterSpacing: '0.14em',
   },
   pipeline: {
-    padding: '1rem',
+    padding: '1rem 1.1rem',
     borderTop: '1px solid var(--border)',
   },
   node: {
@@ -103,7 +103,7 @@ const styles = {
   line: {
     flex: 1,
     width: '2px',
-    background: 'var(--border)',
+    background: 'rgba(111, 142, 149, 0.16)',
     margin: '4px 0',
   },
   nodeContent: {
@@ -115,13 +115,14 @@ const styles = {
     fontSize: '0.7rem',
     fontWeight: '800',
     textTransform: 'uppercase',
-    letterSpacing: '0.05em',
+    letterSpacing: '0.13em',
   },
   layerInfo: {
     fontSize: '0.85rem',
     color: 'var(--text-primary)',
-    fontFamily: 'var(--mono)',
-    marginTop: '0.2rem',
+    fontFamily: 'var(--sans)',
+    marginTop: '0.25rem',
+    lineHeight: '1.55',
   }
 };
 

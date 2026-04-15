@@ -12,7 +12,7 @@ const RiskMeter = ({ score }) => {
 
   const getStatusColor = (s) => {
     if (s < 30) return 'var(--safe)';
-    if (s < 70) return 'var(--secondary)';
+    if (s < 70) return 'var(--warning)';
     return 'var(--scam)';
   };
 
@@ -40,7 +40,7 @@ const RiskMeter = ({ score }) => {
 
 const styles = {
   container: {
-    margin: '1.5rem 0',
+    margin: '1.5rem 0 1.2rem',
     width: '100%',
   },
   header: {
@@ -52,23 +52,25 @@ const styles = {
   label: {
     fontSize: '0.85rem',
     color: 'var(--text-secondary)',
-    fontWeight: '500',
+    fontWeight: '600',
+    letterSpacing: '0.04em',
   },
   value: {
-    fontSize: '1.25rem',
+    fontSize: '1.35rem',
     fontWeight: '700',
     fontVariantNumeric: 'tabular-nums',
   },
   track: {
-    height: '6px',
-    background: 'var(--bg-input)',
-    borderRadius: '10px',
+    height: '10px',
+    background: 'linear-gradient(90deg, rgba(216,231,234,0.9), rgba(255,255,255,0.9))',
+    borderRadius: '999px',
     overflow: 'hidden',
     position: 'relative',
+    boxShadow: 'inset 0 1px 2px rgba(111, 142, 149, 0.1)',
   },
   thumb: {
     height: '100%',
-    borderRadius: '10px',
+    borderRadius: '999px',
     transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s',
   },
 };
