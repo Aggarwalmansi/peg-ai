@@ -13,10 +13,12 @@ const Header = () => {
 
 const styles = {
   header: {
-    padding: '1.5rem 2rem',
+    padding: '1.1rem clamp(1rem, 3vw, 2rem)',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: '0.8rem',
+    flexWrap: 'wrap',
     borderBottom: '1px solid var(--border)',
     background: 'rgba(10, 10, 10, 0.8)',
     backdropFilter: 'blur(10px)',
@@ -25,7 +27,7 @@ const styles = {
     zIndex: 100,
   },
   logo: {
-    fontSize: '1.5rem',
+    fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
     fontWeight: '800',
     letterSpacing: '-0.02em',
     color: 'var(--text-primary)',
@@ -36,7 +38,7 @@ const styles = {
     WebkitTextFillColor: 'transparent',
   },
   badge: {
-    fontSize: '0.7rem',
+    fontSize: 'clamp(0.62rem, 1.5vw, 0.7rem)',
     fontWeight: '600',
     letterSpacing: '0.1em',
     padding: '0.4rem 0.8rem',

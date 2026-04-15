@@ -39,7 +39,7 @@ const MessageBubble = ({ message, type, analysis, loading }) => {
         background: isUser ? 'var(--bg-input)' : 'transparent',
         border: isUser ? '1px solid var(--border)' : 'none',
         padding: isUser ? '0.8rem 1.2rem' : '0',
-        borderRadius: isUser ? '18px 18px 4px 18px' : 'maxWidth: "80%"',
+        borderRadius: isUser ? '18px 18px 4px 18px' : '0',
         maxWidth: isUser ? '80%' : '100%',
       }}>
         {isUser ? (

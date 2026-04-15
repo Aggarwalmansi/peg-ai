@@ -11,19 +11,24 @@
   padding: 0;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   background-color: var(--bg-dark);
   color: var(--text-primary);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+  min-height: 100dvh;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 a {

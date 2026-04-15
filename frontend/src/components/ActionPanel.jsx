@@ -85,7 +85,7 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
     gap: '1rem',
     marginBottom: '1.5rem',
   },
@@ -140,6 +140,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: '0.75rem',
+    flexWrap: 'wrap',
     marginBottom: '0.8rem',
   },
   copyBtn: {

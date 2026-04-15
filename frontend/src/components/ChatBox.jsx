@@ -15,6 +15,7 @@ const ChatBox = () => {
   const [input, setInput] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const scrollRef = useRef(null);
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -63,6 +64,20 @@ const ChatBox = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  useEffect(() => {
+    if (!textareaRef.current) return;
+    textareaRef.current.style.height = '0px';
+    const nextHeight = Math.min(textareaRef.current.scrollHeight, 160);
+    textareaRef.current.style.height = `${nextHeight}px`;
+  }, [input]);
+
   return (
     <div style={styles.container}>
       <div style={styles.chatArea} ref={scrollRef}>
@@ -81,13 +96,15 @@ const ChatBox = () => {
       
       <div style={styles.inputArea}>
         <div style={styles.inputWrapper}>
-          <input 
+          <textarea
+            ref={textareaRef}
             style={styles.input}
             placeholder="Paste suspicious message here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            onKeyDown={handleKeyDown}
             disabled={isAnalyzing}
+            rows={1}
           />
           <button 
             onClick={handleSend} 
@@ -115,36 +132,47 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '800px',
+    minHeight: 0,
+    maxWidth: '960px',
     width: '100%',
     margin: '0 auto',
-    padding: '0 1rem',
+    padding: '0 clamp(0.75rem, 2vw, 1.5rem)',
     position: 'relative',
-    height: 'calc(100vh - 80px)',
   },
   chatArea: {
     flex: 1,
     overflowY: 'auto',
-    padding: '1rem 0',
-    scrollbarWidth: 'none',
-    msOverflowStyle: 'none',
+    minHeight: 0,
+    padding: '1rem 0 0',
+    overscrollBehavior: 'contain',
   },
   content: {
-    paddingBottom: '2rem',
+    width: '100%',
+    maxWidth: '820px',
+    margin: '0 auto',
+    paddingBottom: '1.5rem',
   },
   inputArea: {
-    padding: '1.5rem 0 2.5rem',
-    background: 'linear-gradient(to top, var(--bg-dark) 60%, transparent)',
+    position: 'sticky',
+    bottom: 0,
+    zIndex: 30,
+    width: '100%',
+    padding: '0.85rem 0 calc(0.9rem + env(safe-area-inset-bottom, 0px))',
+    background: 'linear-gradient(to top, rgba(10, 10, 10, 0.98) 72%, rgba(10, 10, 10, 0.82) 88%, rgba(10, 10, 10, 0))',
+    backdropFilter: 'blur(14px)',
   },
   inputWrapper: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    gap: '0.75rem',
     background: 'var(--bg-input)',
     border: '1px solid var(--border)',
-    borderRadius: '16px',
-    padding: '0.6rem 0.8rem',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-    transition: 'border-color 0.2s',
+    borderRadius: '22px',
+    padding: '0.85rem 0.95rem',
+    boxShadow: '0 20px 50px rgba(0,0,0,0.34)',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+    maxWidth: '820px',
+    margin: '0 auto',
   },
   input: {
     flex: 1,
@@ -152,22 +180,33 @@ const styles = {
     border: 'none',
     color: 'var(--text-primary)',
     fontSize: '0.95rem',
-    padding: '0.6rem',
+    padding: '0.25rem 0.2rem 0.35rem',
     outline: 'none',
+    resize: 'none',
+    minHeight: '28px',
+    maxHeight: '160px',
+    lineHeight: '1.5',
+    overflowY: 'auto',
+    fontFamily: 'inherit',
   },
   sendBtn: {
     color: 'var(--primary)',
-    padding: '0.5rem',
+    minWidth: '44px',
+    minHeight: '44px',
+    borderRadius: '999px',
+    background: 'rgba(244, 43, 3, 0.08)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     transition: 'transform 0.2s, opacity 0.2s',
+    flexShrink: 0,
   },
   disclaimer: {
-    fontSize: '0.7rem',
+    fontSize: '0.72rem',
     color: 'var(--text-muted)',
     textAlign: 'center',
-    marginTop: '0.8rem',
+    marginTop: '0.7rem',
+    padding: '0 0.5rem',
   },
 };
 
