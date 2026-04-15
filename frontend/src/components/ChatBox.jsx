@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import MessageBubble from './MessageBubble';
 import { analyzeMessage } from '../services/api';
 
+const AUTO_SCROLL_THRESHOLD = 120;
+
 const ChatBox = () => {
   const [messages, setMessages] = useState([
     {
@@ -16,10 +18,30 @@ const ChatBox = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const scrollRef = useRef(null);
   const textareaRef = useRef(null);
+  const bottomRef = useRef(null);
+  const shouldAutoScrollRef = useRef(true);
+
+  const scrollToBottom = (behavior = 'smooth') => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior, block: 'end' });
+    }
+  };
+
+  const updateAutoScrollState = () => {
+    if (!scrollRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+    const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+    shouldAutoScrollRef.current = distanceFromBottom <= AUTO_SCROLL_THRESHOLD;
+  };
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    scrollToBottom('auto');
+  }, []);
+
+  useEffect(() => {
+    if (shouldAutoScrollRef.current) {
+      scrollToBottom(messages.length <= 2 ? 'auto' : 'smooth');
     }
   }, [messages]);
 
@@ -80,7 +102,7 @@ const ChatBox = () => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.chatArea} ref={scrollRef}>
+      <div style={styles.chatArea} ref={scrollRef} onScroll={updateAutoScrollState}>
         <div style={styles.content}>
           {messages.map((msg) => (
             <MessageBubble 
@@ -91,6 +113,7 @@ const ChatBox = () => {
               loading={msg.loading}
             />
           ))}
+          <div ref={bottomRef} style={styles.bottomAnchor} />
         </div>
       </div>
       
@@ -145,12 +168,13 @@ const styles = {
     minHeight: 0,
     padding: '1rem 0 0',
     overscrollBehavior: 'contain',
+    scrollBehavior: 'smooth',
   },
   content: {
     width: '100%',
     maxWidth: '820px',
     margin: '0 auto',
-    paddingBottom: '1.5rem',
+    paddingBottom: '7.5rem',
   },
   inputArea: {
     position: 'sticky',
@@ -209,6 +233,10 @@ const styles = {
     marginTop: '0.7rem',
     padding: '0 0.5rem',
     letterSpacing: '0.02em',
+  },
+  bottomAnchor: {
+    height: '1px',
+    width: '100%',
   },
 };
 
