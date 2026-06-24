@@ -1,297 +1,58 @@
-# PEG AI
+# PEG AI — Intelligent Scam Detection with Production-Grade Evaluation
 
-PEG AI, short for Personal Economic Guardian, is an agentic scam-detection and response system built to identify suspicious digital messages, explain the risk, and optionally generate bait replies that waste scammer time without exposing real user information.
+PEG AI is an intelligent scam detection pipeline combining rule-based signals, machine learning classifiers, and Large Language Model (LLM) reasoning to identify social engineering attacks. This project implements both the robust multi-layer detection pipeline and a custom, decoupled evaluation harness (`agenteval`) designed to rigorously test accuracy, groundedness, and routing behavior against a diverse set of real-world scam vectors.
 
-The project combines rule-based detection, lightweight ML classification, LLM-assisted judgment, Indian scam-pattern intelligence, and a modern frontend for interactive analysis. It is designed as a deployable full-stack application with a FastAPI backend and a Vite/React frontend.
+## The Problem
 
-## What PEG AI Does
+Scam detection is uniquely difficult for Indian users due to highly localized, rapidly evolving attack vectors. Attackers frequently use Hinglish (a fluid mix of Hindi and English) which evades standard English-only NLP models. Furthermore, scams rely heavily on manipulating legitimate operational flows—like UPI payment requests, OTP sharing, and local e-commerce delivery notifications. Distinguishing a malicious "Scan this QR to receive money" request from a legitimate "Scan my QR to pay for lunch" interaction requires deep contextual understanding rather than simple keyword matching.
 
-- Analyzes incoming text messages for fraud patterns
-- Scores message risk using behavioral, heuristic, ML, and LLM signals
-- Applies India-specific scam intelligence for localized fraud patterns
-- Generates bait replies for high-risk scam conversations
-- Records lightweight memory for audit and traceability
-- Supports MCP-based pattern checking as part of the decision flow
-- Exposes a simple API and UI for real-time interaction
+## What This Project Builds
 
-## Core Use Cases
+This project delivers two core components:
+1. **The Detection Pipeline:** A hybrid decision engine that fuses traditional fallback rules (for fast, obvious matches) with an advanced LLM reasoning layer (using Groq/LLaMA) to classify ambiguous or complex social engineering attempts.
+2. **The `agenteval` Harness:** A decoupled, generalized evaluation library. It runs three-layer evaluations (accuracy, LLM-as-judge groundedness, and tool-use routing logs) and pushes granular correctness feedback directly into LangSmith traces.
 
-- Detecting UPI scam attempts
-- Identifying OTP theft and urgent money-request fraud
-- Flagging suspicious links and fake KYC/account freeze messages
-- Generating safe bait replies for active scam engagement
-- Demonstrating an agentic fraud-defense pipeline for demos, research, or product prototyping
+## Key Results
 
-## Project Structure
+| Metric | Baseline | Final |
+|---|---|---|
+| **Overall Accuracy** | 53.7% | 96.3% |
+| **Categories at 0%** | 3 | 0 |
+| **Groundedness Rate** | not measured | 100% |
+| **LangSmith Traces** | 0 | 82 |
 
-```text
-peg-ai/
-├── agents/              # Orchestration, graph flow, routing, bait and guardian logic
-├── api/                 # API compatibility entrypoint
-├── data/                # Datasets used for training and validation
-├── frontend/            # Vite + React frontend
-├── intelligence/        # Region-specific scam intelligence logic
-├── mcp_servers/         # Local MCP server used for pattern tools
-├── memory/              # Session and long-term storage helpers
-├── models/              # Serialized ML artifacts
-├── peg_mcp/             # MCP client/server integration code
-├── testing/             # Manual and lightweight test scripts
-├── tools/               # Detection, baiting, URL intelligence, actions
-├── training/            # Dataset preparation and model training utilities
-├── main.py              # Primary FastAPI backend entrypoint
-├── render.yaml          # Render deployment configuration
-└── requirements.txt     # Python dependencies
-```
+*(Evaluated on an 82-case golden dataset spanning 19 categories).*
 
-## Architecture
+## The Critical Finding
 
-PEG AI uses a staged decision pipeline:
+During Phase 1, our baseline evaluation showed a severe 0% accuracy drop in the delivery, job, and reward categories, dragging overall accuracy down to 53.7%. Deep inspection of the pipeline revealed **a silent routing integration bug**. The fallback rule layer was erroneously triggering on safe keywords and silently overriding the LLM's correct output before the final decision layer. The LLM was correctly identifying scams, but the fusion logic was discarding its answers. Fixing this routing bug immediately boosted the pipeline's accuracy from 53.7% to 97.6%, proving that robust observability—not just better models—is the key to production AI reliability.
 
-1. Message intake through the FastAPI backend
-2. Guardian analysis using behavioral logic, ML artifacts, and optional LLM classification
-3. Tool routing and intelligence scoring
-4. MCP-based scam-pattern enrichment
-5. Decision engine for `allow`, `log_only`, `warn_and_monitor`, or `block_and_bait`
-6. Bait reply generation for high-risk scam scenarios
-7. Action logging and lightweight memory storage
+## What Still Fails and Why
 
-### Main Backend Flow
+Despite achieving 96.3% final accuracy, the pipeline struggles with three specific edge cases:
+- `otp_safe_004`: A safe message sharing an OTP is flagged as a scam.
+- `upi_safe_003`: A safe QR code scan for lunch payment is flagged as a scam.
+- `delivery_safe_001`: An Amazon delivery OTP notification is incorrectly flagged as a scam.
 
-The deployed backend route is:
+We also discovered a critical blind spot in our evaluation architecture. Our LLM-as-judge (`llama-3.1-8b-instant`) inherited the exact same hallucination pattern as the primary classifier on the `delivery_safe_001` edge case. Both models lack the localized context that Amazon delivery agents in India legitimately require an OTP at the gate. 
 
-- [`main.py`](main.py)
+## How to Run
 
-The request flows through:
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   pip install langsmith python-dotenv
+   ```
+2. Configure your environment variables in `.env`:
+   ```env
+   GROQ_API_KEY=your_groq_api_key
+   LANGCHAIN_API_KEY=your_langsmith_api_key
+   ```
+3. Execute the generalized evaluation:
+   ```bash
+   PYTHONPATH=. python run_peg_eval.py
+   ```
 
-- [`agents/supervisor_graph.py`](agents/supervisor_graph.py)
-- [`agents/langgraph_flow.py`](agents/langgraph_flow.py)
-- [`agents/guardian_engine_v2.py`](agents/guardian_engine_v2.py)
-- [`tools/bait_generator.py`](tools/bait_generator.py)
-- [`peg_mcp/client/peg_client.py`](peg_mcp/client/peg_client.py)
+## The `agenteval` Library
 
-## Tech Stack
-
-### Backend
-
-- Python 3.10
-- FastAPI
-- Uvicorn
-- LangGraph
-- Groq SDK
-- scikit-learn
-- NumPy
-- MCP Python SDK
-
-### Frontend
-
-- React
-- Vite
-- Plain CSS
-
-### Deployment
-
-- Render for backend
-- Vercel or any static hosting platform for frontend
-
-## Features
-
-### 1. Hybrid Scam Detection
-
-PEG AI does not rely on a single model. It combines:
-
-- Rule-based behavioral scoring
-- Serialized ML model inference from `models/`
-- LLM classification using Groq
-- Indian scam-pattern enrichment
-- MCP-based pattern validation
-
-### 2. Active Scam Defense
-
-For high-risk scam messages, the system can generate bait replies that:
-
-- sound human and natural
-- avoid sharing real user data
-- keep the scammer engaged
-- force the scammer to reveal more information
-
-When Groq is unavailable, the system now falls back to deterministic bait replies so the high-risk flow still returns a useful response.
-
-### 3. Explainable Output
-
-Each analysis response can include:
-
-- decision
-- action
-- risk score
-- scam signals
-- recommendation
-- trace of reasoning steps
-
-### 4. Lightweight Memory
-
-PEG AI stores:
-
-- short session context in memory
-- long-term event history in a local JSON file
-
-The current implementation intentionally keeps this lightweight for deployment simplicity.
-
-## API
-
-### Health Check
-
-```http
-GET /
-```
-
-Example response:
-
-```json
-{
-  "status": "PEG AI running",
-  "version": "1.0.1"
-}
-```
-
-### Analyze Message
-
-```http
-POST /analyze
-Content-Type: application/json
-```
-
-Request body:
-
-```json
-{
-  "message": "UPI collect request approve now"
-}
-```
-
-Example response:
-
-```json
-{
-  "message": "UPI collect request approve now",
-  "decision": "scam",
-  "risk_score": 90,
-  "action": "block_and_bait",
-  "bait_reply": "Accha yeh UPI request kis app pe dikh raha hai bhai, main thoda confuse ho gaya?",
-  "signals": [
-    "UPI Collect Fraud",
-    "MCP Pattern Match"
-  ],
-  "recommendation": "Do not send money. Report this to cybercrime.gov.in or call 1930.",
-  "trace": [
-    "[Guardian] risk=30",
-    "Tool used: pattern_check",
-    "[Indian] signals=['UPI Collect Fraud']",
-    "[Override] Critical scam detected",
-    "[MCP] {'pattern_match': true, 'score': 2}",
-    "[Decision] risk=100 → block_and_bait",
-    "[Bait] generated"
-  ]
-}
-```
-
-## Local Setup
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd peg-ai
-```
-
-### 2. Create a Python Environment
-
-```bash
-python3.10 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Backend Dependencies
-
-```bash
-pip install --upgrade pip setuptools wheel
-pip install -r requirements.txt
-```
-
-### 4. Configure Backend Environment
-
-```bash
-cp .env.example .env
-```
-
-Then set your real values in `.env`.
-
-### 5. Start the Backend
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-### 6. Set Up the Frontend
-
-```bash
-cd frontend
-npm install
-cp .env.example .env
-npm run dev
-```
-
-By default, the frontend expects:
-
-```env
-VITE_API_URL=http://localhost:8000
-```
-
-## Models
-
-PEG AI expects these model artifacts:
-
-- `models/guardian_model_v1.pkl`
-- `models/vectorizer_v1.pkl`
-
-These are used by the guardian engine and scam detector. If the artifacts are missing, the backend now falls back more gracefully, but production deployments should still include them for best results.
-
-## MCP Integration
-
-PEG AI includes local MCP support for pattern checking.
-
-Relevant files:
-
-- [`mcp_servers/peg_mcp_server.py`](mcp_servers/peg_mcp_server.py)
-- [`peg_mcp/client/peg_client.py`](peg_mcp/client/peg_client.py)
-
-Current MCP behavior:
-
-- starts a local stdio MCP server
-- lists tools
-- calls `check_scam_pattern`
-- uses the returned score to increase risk and add MCP trace data
-
-## Testing
-
-The `testing/` directory contains lightweight scripts for manual validation.
-
-Examples:
-
-- [`testing/test_guardian_v2.py`](testing/test_guardian_v2.py)
-- [`testing/test_supervisor_graph.py`](testing/test_supervisor_graph.py)
-- [`testing/test_langgraph.py`](testing/test_langgraph.py)
-- [`testing/test_mcp_real.py`](testing/test_mcp_real.py)
-
-Suggested manual validation scenarios:
-
-- normal personal message
-- OTP scam
-- UPI collect request
-- fake KYC freeze message
-- malicious URL message
-- family emergency money scam
-
-
-## Status
-
-PEG AI is currently in an MVP-plus stage with a working end-to-end scam-defense flow, active bait support, MCP integration, deployable frontend/backend structure, and a clearer path toward production hardening.
+The evaluation logic is completely separated from the PEG AI business logic. You can plug any AI pipeline (e.g., LangGraph agents) into the harness by implementing the `AgentInterface` abstract base class found in `agenteval/base.py`. The runner automatically handles progress logging, API rate-limit throttling (e.g., Groq 429s), LLM-as-judge groundedness checks, and automated LangSmith trace logging with per-trace correctness feedback.

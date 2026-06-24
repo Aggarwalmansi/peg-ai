@@ -73,7 +73,15 @@ def analyze_message(message):
     risk = behavioral_score(message)
 
     # 3. LLM Reasoning (Deep Context Analysis)
-    llm_pred = llm_classify(message)
+    llm_output = llm_classify(message)
+    if isinstance(llm_output, dict):
+        llm_pred = llm_output.get("label", "safe")
+        llm_reasoning = llm_output.get("reasoning", "")
+        llm_error = llm_output.get("error", False)
+    else:
+        llm_pred = llm_output
+        llm_reasoning = ""
+        llm_error = False
 
     # --- FINAL DECISION LOGIC ---
     if llm_pred == "scam":
@@ -94,6 +102,8 @@ def analyze_message(message):
         "message": message,
         "ml_prediction": ml_pred,
         "llm_prediction": llm_pred,
+        "reasoning": llm_reasoning,
+        "llm_error": llm_error,
         "risk_score": risk,
         "final_decision": final,
         "bait_reply": bait

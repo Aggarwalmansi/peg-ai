@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEG AI Eval Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body { font-family: 'Inter', -apple-system, sans-serif; margin: 0; padding: 2rem; background: #0f172a; color: #f8fafc; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 2rem; margin-bottom: 2rem; color: #38bdf8; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .card { background: #1e293b; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #334155; }
+        .card h2 { margin-top: 0; font-size: 1.25rem; color: #e2e8f0; border-bottom: 1px solid #334155; padding-bottom: 0.75rem; margin-bottom: 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #334155; font-size: 0.9rem; }
+        th { background: #0f172a; color: #94a3b8; font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+        .tag { background: #ef4444; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .metrics-summary { display: flex; gap: 2rem; margin-bottom: 2rem; }
+        .metric-box { background: #1e293b; padding: 1.5rem; border-radius: 12px; flex: 1; border: 1px solid #334155; text-align: center; }
+        .metric-box .value { font-size: 2.5rem; font-weight: bold; color: #38bdf8; margin-top: 0.5rem; }
+        .metric-box .label { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PEG AI Observability Dashboard</h1>
+        
+        <div class="metrics-summary">
+            <div class="metric-box">
+                <div class="label">Latest Accuracy</div>
+                <div class="value" id="latest-acc">--%</div>
+            </div>
+            <div class="metric-box">
+                <div class="label">Latest Groundedness</div>
+                <div class="value" id="latest-grounded">--%</div>
+            </div>
+            <div class="metric-box">
+                <div class="label">Total Cases</div>
+                <div class="value" id="latest-total">--</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Accuracy & Groundedness Over Time</h2>
+                <canvas id="trendChart"></canvas>
+            </div>
+            <div class="card">
+                <h2>Latest Accuracy by Category (Weakest First)</h2>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h2>Latest Failures</h2>
+            <div style="overflow-x: auto;">
+                <table id="failuresTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Expected</th>
+                            <th>Actual</th>
+                            <th>Reasoning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('eval_runs.jsonl');
+                const text = await response.text();
+                const runs = text.split('\n')
+                    .filter(line => line.trim().length > 0)
+                    .map(line => JSON.parse(line));
+                
+                renderDashboard(runs);
+            } catch (error) {
+                console.error("Error loading eval_runs.jsonl:", error);
+                document.body.innerHTML = "<div style='color:white; padding: 2rem;'>Error loading data. Run via a local server (e.g. python -m http.server) due to CORS.</div>";
+            }
+        }
+
+        function renderDashboard(runs) {
+            if (runs.length === 0) return;
+            
+            const latest = runs[runs.length - 1];
+
+            // 1. Top Metrics
+            document.getElementById('latest-acc').innerText = (latest.overall_accuracy * 100).toFixed(1) + "%";
+            document.getElementById('latest-grounded').innerText = latest.groundedness_rate !== undefined ? (latest.groundedness_rate * 100).toFixed(1) + "%" : "N/A";
+            document.getElementById('latest-total').innerText = latest.total;
+
+            // 2. Trend Chart
+            const labels = runs.map((r, i) => {
+                const d = new Date(r.timestamp);
+                return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            });
+            const accData = runs.map(r => (r.overall_accuracy * 100).toFixed(1));
+            const groundedData = runs.map(r => r.groundedness_rate !== undefined ? (r.groundedness_rate * 100).toFixed(1) : null);
+
+            new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Accuracy (%)',
+                            data: accData,
+                            borderColor: '#38bdf8',
+                            backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Groundedness (%)',
+                            data: groundedData,
+                            borderColor: '#a855f7',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#e2e8f0' } } },
+                    scales: {
+                        y: { min: 0, max: 100, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+                        x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+                    }
+                }
+            });
+
+            // 3. Category Bar Chart
+            if (latest.by_category) {
+                // Compute category accuracy and sort lowest to highest
+                const catEntries = Object.keys(latest.by_category).map(cat => {
+                    const stats = latest.by_category[cat];
+                    return {
+                        name: cat,
+                        acc: (stats.correct / stats.total) * 100
+                    };
+                }).sort((a, b) => a.acc - b.acc);
+
+                new Chart(document.getElementById('categoryChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: catEntries.map(c => c.name),
+                        datasets: [{
+                            label: 'Accuracy (%)',
+                            data: catEntries.map(c => c.acc.toFixed(1)),
+                            backgroundColor: catEntries.map(c => c.acc < 80 ? '#ef4444' : (c.acc < 100 ? '#f59e0b' : '#22c55e')),
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { min: 0, max: 100, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+                            y: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // 4. Failures Table
+            const tbody = document.querySelector('#failuresTable tbody');
+            if (latest.failures && latest.failures.length > 0) {
+                latest.failures.forEach(f => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${f.id}</strong></td>
+                        <td>${f.category || '-'}</td>
+                        <td><span style="color:#22c55e">${f.expected}</span></td>
+                        <td><span class="tag">${f.actual}</span></td>
+                        <td style="color:#cbd5e1; font-size:0.85rem;"><em>"${f.reasoning || '-'}"</em></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#22c55e; padding: 2rem;">Zero Failures! 🎉</td></tr>`;
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

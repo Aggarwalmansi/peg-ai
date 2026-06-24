@@ -24,7 +24,9 @@ def supervisor_decision(message: str, session_id: str = "default") -> dict:
         "action": None,
         "bait_reply": None,
         "signals": [],
-        "explanation": None
+        "explanation": None,
+        "routing": {},
+        "reasoning": ""
     }
 
     # -----------------------------
@@ -44,15 +46,41 @@ def supervisor_decision(message: str, session_id: str = "default") -> dict:
     indian_analysis = indian_intelligence_score(message)
 
     guardian_score = guardian_analysis["risk_score"]
+    
+    # CRITICAL FIX: Ensure LLM classification overrides a low behavioral risk score
+    if guardian_analysis.get("final_decision") == "scam":
+        guardian_score = max(guardian_score, 85)
+        
     indian_score = indian_analysis["indian_score"]
 
     # -----------------------------
     # STEP 3: SCORE FUSION
     # -----------------------------
     final_score = max(guardian_score, indian_score)
+    
+    # CRITICAL FIX 2: Trust the LLM to suppress keyword-based false positives
+    if guardian_analysis.get("llm_prediction") == "safe":
+        final_score = min(final_score, 35)
 
     result["risk_score"] = final_score
     result["signals"] = indian_analysis["signals"]
+    
+    # ROUTING LOGS
+    routing = {
+        "llm_called": not guardian_analysis.get("llm_error", False),
+        "fallback_called": True,
+        "final_source": "fused"
+    }
+    
+    if guardian_analysis.get("llm_prediction") == "safe":
+        routing["final_source"] = "llm"
+    elif guardian_analysis.get("final_decision") == "scam":
+        routing["final_source"] = "llm"
+    elif indian_score >= 40 and final_score == indian_score:
+        routing["final_source"] = "fallback"
+
+    result["routing"] = routing
+    result["reasoning"] = guardian_analysis.get("reasoning", "")
 
     # -----------------------------
     # STEP 4: FINAL DECISION
