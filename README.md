@@ -23,6 +23,23 @@ This project delivers two core components:
 
 *(Evaluated on an 82-case golden dataset spanning 19 categories).*
 
+## Phase 4: Embedding Research (Findings)
+We attempted to add RAG-based retrieval 
+using fine-tuned embeddings. After three 
+model iterations we determined:
+- BGE-small-en-v1.5 has no Hinglish 
+  representation (confirmed via L2 norms)
+- Fine-tuning with 1,200 triplets on a 
+  12-layer multilingual model is insufficient 
+  for intent-based retrieval to outperform 
+  direct LLM reasoning
+- Estimated 15,000-25,000 cross-lingual 
+  triplets needed for viability
+- Decision: RAG not integrated; LLM pipeline 
+  maintained at 96.3% accuracy
+
+This is documented in research/phase4_findings.md
+
 ## The Critical Finding
 
 During Phase 1, our baseline evaluation showed a severe 0% accuracy drop in the delivery, job, and reward categories, dragging overall accuracy down to 53.7%. Deep inspection of the pipeline revealed **a silent routing integration bug**. The fallback rule layer was erroneously triggering on safe keywords and silently overriding the LLM's correct output before the final decision layer. The LLM was correctly identifying scams, but the fusion logic was discarding its answers. Fixing this routing bug immediately boosted the pipeline's accuracy from 53.7% to 97.6%, proving that robust observability—not just better models—is the key to production AI reliability.
