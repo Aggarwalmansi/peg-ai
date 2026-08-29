@@ -1,0 +1,9 @@
+{
+  "experiment_id": "prompt_compression_v1",
+  "target": "Prompt Compression (removing few-shot examples and shortening system instructions)",
+  "reason": "Backed by baseline numbers showing high input tokens (519.8 avg) which directly impacts cost and processing time.",
+  "changes": [
+    "Removed 8 few-shot examples from the prompt.",
+    "Condensed the system rules into a single short paragraph."
+  ]
+}
