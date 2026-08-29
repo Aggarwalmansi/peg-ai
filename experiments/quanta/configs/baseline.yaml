@@ -1,0 +1,7 @@
+# baseline.yaml
+model_fallback:
+  llama-3.1-8b-instant: openai/gpt-oss-20b
+  llama3-8b-8192: openai/gpt-oss-20b
+
+# Avoids Groq 429 rate limits between classification and groundedness judge calls
+judge_throttle_seconds: 2.1
